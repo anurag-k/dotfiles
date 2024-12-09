@@ -18,10 +18,9 @@ keymap.set("n", "<leader>sh", ":split<CR>", opts) -- Split Horizontally
 keymap.set("n", "<leader>sm", ":MaximizerToggle<CR>", opts) -- Toggle Minimize
 
 -- Indenting
--- keymap.set("v", ">", "<gv", opts) -- works with '>'
--- keymap.set("v", "<", ">gv", opts) -- works with Ctrl+'>'
--- gv above was supposed to retain block highlighting, so indentation can be continued but this is not happening
+keymap.set("v", ">", ">gv")
+keymap.set("v", "<", "<gv")
 
--- Comments (does not work)
+-- Comments (does not work, just use gcc for now)
 -- vim.api.nvim_set_keymap("n", "<C-_>", "gcc", { noremap = false })
 -- vim.api.nvim_set_keymap("v", "<C-_>", "gcc", { noremap = false })
