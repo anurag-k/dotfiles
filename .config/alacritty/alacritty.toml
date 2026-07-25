@@ -29,6 +29,22 @@ dynamic_title = true
 x = 8
 y = 8
 
+[cursor]
+style = { shape = "Beam", blinking = "Off" }
+
+[scrolling]
+history = 50000
+
+[selection]
+save_to_clipboard = true
+
+[bell]
+animation = "EaseOutExpo"
+duration = 0
+
+[mouse]
+hide_when_typing = true
+
 # Nightfox Alacritty Colors
 ## name: carbonfox
 ## upstream: https://github.com/edeneast/nightfox.nvim/raw/main/extra/carbonfox/alacritty.toml
