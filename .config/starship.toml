@@ -1,0 +1,36 @@
+format = """
+$directory$git_branch$git_status$cmd_duration
+$character
+"""
+
+[directory]
+style = "bold blue"
+truncation_length = 3
+
+[git_branch]
+symbol = " "
+style = "bold purple"
+
+[git_status]
+style = "bold red"
+
+[cmd_duration]
+min_time = 2000
+format = "took [$duration](yellow)"
+
+[character]
+success_symbol = "[❯](#b6b8bb)"
+error_symbol = "[❯](#ee5396)"
+
+# Disable language/version detection
+[lua]
+disabled = true
+
+[python]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[rust]
+disabled = true
