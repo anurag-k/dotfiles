@@ -1,11 +1,11 @@
-1. ## Environment
+## 1. Environment
 
   Add the following command to ~/.bashrc:
    ```bash
    eval "$(starship init bash)"
    ```
 
-2. ## Font
+## 2. Font
 
    Primary Font: SauceCode Pro Nerd Font Mono (regular, 13)
    
@@ -22,7 +22,7 @@
    ```bash
    fc-match "SauceCodePro Nerd Font Mono"
    ```
-4. ## Alacritty Shortcut (optional)
+## 3. Alacritty Shortcut (optional)
 
    Create a custom keyboard shortcut to launch Alacritty.
    
