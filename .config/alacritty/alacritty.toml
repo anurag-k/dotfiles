@@ -1,25 +1,33 @@
 [env]
 TERM = "xterm-256color"
 
-[font.bold]
-family = "FiraCode Nerd Font"
-style = "Bold"
-
-[font.bold_italic]
-family = "FiraCode Nerd Font"
-style = "SemiBold"
-
-[font.italic]
-family = "FiraCode Nerd Font"
-style = "Light"
+[font]
+size = 13.0
 
 [font.normal]
-family = "FiraCode Nerd Font"
+family = "SauceCodePro Nerd Font Mono"
 style = "Regular"
 
-[window]
-opacity = 1
+[font.bold]
+family = "SauceCodePro Nerd Font Mono"
+style = "Medium"
 
+[font.italic]
+family = "SauceCodePro Nerd Font Mono"
+style = "Regular"
+
+[font.bold_italic]
+family = "SauceCodePro Nerd Font Mono"
+style = "Medium"
+
+[window]
+opacity = 1.0
+startup_mode = "Maximized"
+dynamic_title = true
+
+[window.padding]
+x = 8
+y = 8
 
 # Nightfox Alacritty Colors
 ## name: carbonfox
