@@ -3,8 +3,8 @@
    eval "$(starship init bash)"
    ```
 
-2. Primary Font:
-   SauceCode Pro Nerd Font Mono (regular, 13)
+2. Primary Font: SauceCode Pro Nerd Font Mono (regular, 13)
+   
    Download:
    https://www.nerdfonts.com/font-downloads
   
