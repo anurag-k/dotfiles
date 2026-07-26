@@ -1,5 +1,6 @@
-local config = function()
+  local config = function()
 	local lspconfig = require("lspconfig")
+  local keymap = vim.keymap
 	local signs = {
 		Error = " ",
 		Warn = " ",
@@ -78,9 +79,42 @@ local config = function()
 		},
 	})
 
+
+  -- LSP Keymaps
+  keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover Documentation" })
+
+  keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to Definition" })
+  keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Go to Declaration" })
+  keymap.set("n", "gr", vim.lsp.buf.references, { desc = "Find References" })
+  keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Go to Implementation" })
+  keymap.set("n", "gt", vim.lsp.buf.type_definition, { desc = "Go to Type Definition" })
+  
+  keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename Symbol" })
+  keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
+
+  keymap.set("n", "<leader>cf", function()
+  vim.lsp.buf.format({
+    async = true,
+  })
+  end, { desc = "Format Buffer" })
+  keymap.set("n", "<leader>ci", "<cmd>LspInfo<CR>", { desc = "LSP Info" })
+  keymap.set("n", "<leader>e", vim.diagnostic.open_float, {
+    desc = "Diagnostics",
+  })
+
+  keymap.set("n", "]d", function()
+  vim.diagnostic.jump({ count = 1 })
+  end, { desc = "Next Diagnostic" })
+
+  keymap.set("n", "[d", function()
+  vim.diagnostic.jump({ count = -1 })
+  end, { desc = "Previous Diagnostic" })
+
 	-- Format on Save
-	local lsp_fmt_group = vim.api.nvim_create_augroup("LspFormattingGroup", {})
-	vim.api.nvim_create_autocmd("BufWritePost", {
+	local lsp_fmt_group = vim.api.nvim_create_augroup("LspFormattingGroup", {
+    clear = true,
+  })
+	vim.api.nvim_create_autocmd("BufWritePre", {
 		group = lsp_fmt_group,
 		callback = function()
 			local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
