@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+set -e
+
+PROJECT_DIR="$(pwd)"
+PROJECT_NAME="$(basename "$PROJECT_DIR")"
+SESSION="$PROJECT_NAME"
+
+if tmux has-session -t "$SESSION" 2>/dev/null; then
+    if [ -n "${TMUX:-}" ]; then
+        tmux switch-client -t "$SESSION"
+    else
+        tmux attach-session -t "$SESSION"
+    fi
+    exit 0
+fi
+
+tmux new-session -d -s "$SESSION" -n nvim -c "$PROJECT_DIR"
+tmux send-keys -t "$SESSION:1" 'nvim .' C-m
+
+tmux new-window -t "$SESSION:2" -n codex -c "$PROJECT_DIR"
+tmux send-keys -t "$SESSION:2" 'codex' C-m
+
+tmux new-window -t "$SESSION:3" -n shell -c "$PROJECT_DIR"
+
+tmux select-window -t "$SESSION:1"
+
+if [ -n "${TMUX:-}" ]; then
+    tmux switch-client -t "$SESSION"
+else
+    tmux attach-session -t "$SESSION"
+fi
