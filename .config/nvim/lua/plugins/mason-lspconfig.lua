@@ -1,14 +1,15 @@
 local opts = {
-  ensure_installed = {
-    "lua_ls",
-    "clangd",
-  },
-  automatic_installation = false,
+	ensure_installed = {
+		"lua_ls",
+		"clangd",
+		"pyright",
+	},
+	automatic_installation = false,
 }
 
 return {
-  "williamboman/mason-lspconfig.nvim",
-  opts = opts,
-  event = "BufReadPre",
-  dependencies = "williamboman/mason.nvim",
+	"williamboman/mason-lspconfig.nvim",
+	opts = opts,
+	event = "BufReadPre",
+	dependencies = "williamboman/mason.nvim",
 }

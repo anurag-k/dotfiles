@@ -56,6 +56,10 @@ local config = function()
 		},
 	})
 
+	-- Python
+	lspconfig.pyright.setup({})
+	lspconfig.ruff.setup({})
+
 	local luacheck = require("efmls-configs.linters.luacheck")
 	local stylua = require("efmls-configs.formatters.stylua")
 
