@@ -95,12 +95,14 @@ local config = function()
 	keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename Symbol" })
 	keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
 
-	keymap.set("n", "<leader>cf", function()
-		vim.lsp.buf.format({
-			async = true,
-		})
-	end, { desc = "Format Buffer" })
-	keymap.set("n", "<leader>ci", "<cmd>LspInfo<CR>", { desc = "LSP Info" })
+  keymap.set("n", "<leader>cf", function()
+	  if vim.bo.filetype == "python" then
+		  require("conform").format({ async = true })
+	  else
+		  vim.lsp.buf.format({ async = true })
+	  end
+  end, { desc = "Format Buffer" })
+  keymap.set("n", "<leader>ci", "<cmd>LspInfo<CR>", { desc = "LSP Info" })
 	keymap.set("n", "<leader>e", vim.diagnostic.open_float, {
 		desc = "Diagnostics",
 	})

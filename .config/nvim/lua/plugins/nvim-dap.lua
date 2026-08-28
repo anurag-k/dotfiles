@@ -21,6 +21,26 @@ return {
 				stopAtBeginningOfMain = false,
 			},
 		}
+
+		-- Python
+		dap.adapters.python = {
+			type = "executable",
+			command = vim.fn.getcwd() .. "/.venv/bin/python",
+			args = { "-m", "debugpy.adapter" },
+		}
+
+		dap.configurations.python = {
+			{
+				name = "Launch Python file",
+				type = "python",
+				request = "launch",
+				program = "${file}",
+				pythonPath = function()
+					return vim.fn.getcwd() .. "/.venv/bin/python"
+				end,
+			},
+		}
+
 		-- DAP keymaps
 		local keymap = vim.keymap
 
