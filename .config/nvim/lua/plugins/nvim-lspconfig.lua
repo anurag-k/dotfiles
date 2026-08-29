@@ -60,13 +60,22 @@ local config = function()
 	lspconfig.pyright.setup({})
 	lspconfig.ruff.setup({})
 
+	-- YAML
+	lspconfig.yamlls.setup({})
+
+  -- TOML
+  lspconfig.taplo.setup({})
+
 	local luacheck = require("efmls-configs.linters.luacheck")
 	local stylua = require("efmls-configs.formatters.stylua")
+	local shellcheck = require("efmls-configs.linters.shellcheck")
 
 	--configure efm server
 	lspconfig.efm.setup({
 		filetypes = {
 			"lua",
+			"sh",
+			"bash",
 		},
 		init_options = {
 			documentFormatting = true,
@@ -79,6 +88,8 @@ local config = function()
 		settings = {
 			languages = {
 				lua = { luacheck, stylua },
+				sh = { shellcheck },
+				bash = { shellcheck },
 			},
 		},
 	})
@@ -95,14 +106,14 @@ local config = function()
 	keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename Symbol" })
 	keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
 
-  keymap.set("n", "<leader>cf", function()
-	  if vim.bo.filetype == "python" then
-		  require("conform").format({ async = true })
-	  else
-		  vim.lsp.buf.format({ async = true })
-	  end
-  end, { desc = "Format Buffer" })
-  keymap.set("n", "<leader>ci", "<cmd>LspInfo<CR>", { desc = "LSP Info" })
+	keymap.set("n", "<leader>cf", function()
+		if vim.bo.filetype == "python" or vim.bo.filetype == "sh" or vim.bo.filetype == "bash" then
+			require("conform").format({ async = true })
+		else
+			vim.lsp.buf.format({ async = true })
+		end
+	end, { desc = "Format Buffer" })
+	keymap.set("n", "<leader>ci", "<cmd>LspInfo<CR>", { desc = "LSP Info" })
 	keymap.set("n", "<leader>e", vim.diagnostic.open_float, {
 		desc = "Diagnostics",
 	})

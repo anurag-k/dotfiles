@@ -3,6 +3,9 @@ local opts = {
 		"lua_ls",
 		"clangd",
 		"pyright",
+		"bashls",
+		"jsonls",
+		"yamlls",
 	},
 	automatic_installation = false,
 }
