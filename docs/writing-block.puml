@@ -1,0 +1,132 @@
+@startuml
+title Neovim Tooling Architecture
+
+skinparam componentStyle rectangle
+
+actor Developer
+
+package "Neovim" {
+
+    component "Neovim Core" as Nvim
+
+    component "Treesitter" as TS {
+        [Language Parsers] as Parsers
+    }
+
+    component "Built-in LSP Client" as LSP
+
+    package "Neovim Plugins" {
+        component "nvim-lspconfig" as LSPConfig
+        component "mason.nvim" as Mason
+        component "mason-lspconfig" as MasonLSP
+        component "Conform" as Conform
+        component "nvim-ts-autotag" as AutoTag
+        component "Gitsigns" as Gitsigns
+    }
+
+    component "Diagnostic System\nvim.diagnostic" as Diagnostics
+}
+
+package "External Language Servers" {
+    component "clangd" as Clangd
+    component "pyright" as Pyright
+    component "bashls" as BashLS
+    component "jsonls" as JsonLS
+    component "yamlls" as YamlLS
+    component "ts_ls\n(TypeScript Language Server)" as TsLS
+}
+
+package "External Developer Tools" {
+    component "Ruff" as Ruff
+    component "ShellCheck" as ShellCheck
+    component "shfmt" as Shfmt
+    component "Taplo" as Taplo
+}
+
+package "Documentation Tools" {
+    component "Asciidoctor" as Asciidoctor
+    component "PlantUML" as PlantUML
+}
+
+Developer --> Nvim : edits files
+
+Nvim --> TS : parse source
+TS --> Parsers : use language parser
+
+Nvim --> LSP : LSP communication
+LSP --> LSPConfig : server configuration
+
+LSPConfig --> Clangd
+LSPConfig --> Pyright
+LSPConfig --> BashLS
+LSPConfig --> JsonLS
+LSPConfig --> YamlLS
+LSPConfig --> TsLS
+
+Clangd --> Diagnostics
+Pyright --> Diagnostics
+BashLS --> Diagnostics
+JsonLS --> Diagnostics
+YamlLS --> Diagnostics
+TsLS --> Diagnostics
+
+Nvim --> Diagnostics : display diagnostics
+
+Mason --> MasonLSP : package integration
+MasonLSP --> Clangd : install/manage
+MasonLSP --> Pyright : install/manage
+MasonLSP --> BashLS : install/manage
+MasonLSP --> JsonLS : install/manage
+MasonLSP --> YamlLS : install/manage
+MasonLSP --> TsLS : install/manage
+
+Mason --> Ruff : install/manage
+Mason --> ShellCheck : install/manage
+Mason --> Shfmt : install/manage
+Mason --> Taplo : install/manage
+
+Nvim --> Conform : format request
+Conform --> Ruff : Python formatting
+
+Nvim --> AutoTag : HTML tag handling
+AutoTag --> TS : uses syntax structure
+
+Nvim --> Gitsigns : Git integration
+
+Developer --> Asciidoctor : render .adoc
+Developer --> PlantUML : render .puml
+
+Asciidoctor --> PlantUML : optional diagram integration
+
+note right of Mason
+Mason is an installer/package manager.
+
+It does NOT provide:
+- LSP protocol
+- language intelligence
+- parsing
+- diagnostics itself
+end note
+
+note right of LSP
+Neovim is the LSP CLIENT.
+
+The language server is an
+external process.
+end note
+
+note bottom of TS
+Treesitter:
+parsing + syntax highlighting +
+structural information.
+
+Not an LSP.
+end note
+
+note bottom of Conform
+Conform orchestrates formatters.
+
+Formatter does the actual formatting.
+end note
+
+@enduml

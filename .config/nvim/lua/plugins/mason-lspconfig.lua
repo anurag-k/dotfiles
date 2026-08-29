@@ -6,6 +6,7 @@ local opts = {
 		"bashls",
 		"jsonls",
 		"yamlls",
+		"ts_ls",
 	},
 	automatic_installation = false,
 }

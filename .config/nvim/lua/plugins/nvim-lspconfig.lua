@@ -66,6 +66,9 @@ local config = function()
   -- TOML
   lspconfig.taplo.setup({})
 
+  -- JavaScript / TypeScript
+  lspconfig.ts_ls.setup({})
+
 	local luacheck = require("efmls-configs.linters.luacheck")
 	local stylua = require("efmls-configs.formatters.stylua")
 	local shellcheck = require("efmls-configs.linters.shellcheck")
