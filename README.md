@@ -1,5 +1,23 @@
 ## 1. Environment
 
+### Bootstrap
+
+After cloning this repository, run:
+
+```bash
+bash bootstrap.sh
+```
+
+The script supports APT (Debian/Ubuntu), DNF (Fedora), and Pacman (Arch). It
+installs the required packages and language tooling, links the configuration
+into your home directory, installs the SauceCodePro Nerd Font, and bootstraps
+Neovim. It modifies `~/.bashrc` only to add `~/.local/bin` and Starship
+initialization. Use `--skip-font` or `--skip-nvim` to omit either network-heavy
+step.
+
+The tracked `taplo` executable is static Linux x86-64 only. On another
+architecture, install Taplo separately and place it on `PATH`.
+
   Add the following command to ~/.bashrc:
    ```bash
    eval "$(starship init bash)"

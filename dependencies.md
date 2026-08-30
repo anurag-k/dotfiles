@@ -1,25 +1,58 @@
-## Dependencies
+# Dependencies and Linux setup
 
-### Core C++ development
-
-```bash
-sudo apt install clangd cmake build-essential
-```
-
-### Neovim / terminal workflow
+The supported way to set up a new Linux workstation is to clone this repository
+and run the bootstrapper:
 
 ```bash
-sudo apt install tmux ripgrep xclip curl
+git clone <repository-url> ~/Repos/dotfiles
+cd ~/Repos/dotfiles
+bash bootstrap.sh
 ```
 
-### Optional development tools
+The script supports APT (Debian/Ubuntu), DNF (Fedora), and Pacman (Arch). It is
+idempotent: it installs system packages, language tooling, SauceCodePro Nerd
+Font Mono, and Neovim plugins; links the tracked configuration into `$HOME`;
+and enables Starship in Bash.
+
+## What the bootstrapper installs
+
+- Terminal workflow: Alacritty, tmux, Starship, Git, ripgrep, fd, xclip, and
+  Fontconfig.
+- C/C++: build-essential, CMake, clangd, and GDB.
+- Neovim dependencies: Neovim, Node/npm, Python virtual environments/pipx,
+  Go, Cargo, ShellCheck, shfmt, LuaCheck, StyLua (when packaged), Ruff,
+  efm-langserver, and Mason-managed language servers.
+- Global Node tooling: Codex, Pyright, TypeScript and its language server,
+  Bash language server, and JSON/CSS/HTML language servers.
+
+Use either option if that part of the setup should be deferred:
 
 ```bash
-sudo apt install python3.12-venv npm golang-go
+bash bootstrap.sh --skip-font
+bash bootstrap.sh --skip-nvim
 ```
 
-### Terminal
+## Required follow-up
 
-- Alacritty
-- Starship
-- SauceCodePro Nerd Font Mono
+Open a new Bash session after the script completes, then authenticate Codex:
+
+```bash
+codex login
+```
+
+The `dev` helper creates a tmux session containing Neovim, Codex, and a shell;
+it therefore requires `tmux`, `nvim`, `codex`, and `~/.local/bin` on `PATH`.
+
+## Font and architecture notes
+
+SauceCodePro Nerd Font Mono is required for the configured Alacritty font and
+the icon glyphs used by the terminal workflow. The bootstrapper downloads it
+from the official Nerd Fonts release and refreshes Fontconfig. Verify it with:
+
+```bash
+fc-match "SauceCodePro Nerd Font Mono"
+```
+
+The tracked `taplo` executable is a static Linux x86-64 binary. It is linked
+automatically on x86-64 only; install a Taplo build for the target architecture
+on other systems.
