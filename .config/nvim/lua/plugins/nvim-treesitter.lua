@@ -3,7 +3,7 @@ local config = function()
 		indent = {
 			enable = true,
 		},
-		ensure_enabled = {
+		ensure_installed = {
 			"markdown",
 			"json",
 			"javascript",
@@ -11,11 +11,10 @@ local config = function()
 			"yaml",
 			"html",
 			"css",
-			"markdown",
 			"bash",
 			"lua",
 			"dockerfile",
-			"solidify",
+			"solidity",
 			"gitignore",
 			"python",
 			"vue",
