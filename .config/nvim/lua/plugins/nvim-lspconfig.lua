@@ -63,11 +63,11 @@ local config = function()
 	-- YAML
 	lspconfig.yamlls.setup({})
 
-  -- TOML
-  lspconfig.taplo.setup({})
+	-- TOML
+	lspconfig.taplo.setup({})
 
-  -- JavaScript / TypeScript
-  lspconfig.ts_ls.setup({})
+	-- JavaScript / TypeScript
+	lspconfig.ts_ls.setup({})
 
 	local luacheck = require("efmls-configs.linters.luacheck")
 	local stylua = require("efmls-configs.formatters.stylua")
@@ -117,7 +117,7 @@ local config = function()
 		end
 	end, { desc = "Format Buffer" })
 	keymap.set("n", "<leader>ci", "<cmd>LspInfo<CR>", { desc = "LSP Info" })
-	keymap.set("n", "<leader>e", vim.diagnostic.open_float, {
+	keymap.set("n", "<leader>df", vim.diagnostic.open_float, {
 		desc = "Diagnostics",
 	})
 

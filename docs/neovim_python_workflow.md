@@ -13,7 +13,7 @@
 | `<leader>cr` | Rename symbol |
 | `<leader>ca` | Code action / Ruff fixes |
 | `<leader>cf` | Format buffer with Ruff |
-| `<leader>e` | Show diagnostic |
+| `<leader>df` | Show diagnostic |
 | `]d` | Next diagnostic |
 | `[d` | Previous diagnostic |
 | `<leader>ci` | LSP info |

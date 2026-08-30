@@ -82,7 +82,7 @@ Check attached servers:
 Check diagnostics:
 
 ```vim
-<leader>e
+<leader>df
 ```
 
 or:
@@ -111,7 +111,7 @@ Diagnostics navigation:
 ```text
 ]d         Next diagnostic
 [d         Previous diagnostic
-<leader>e  Show diagnostic
+<leader>df Show diagnostic
 ```
 
 ---
@@ -353,7 +353,7 @@ Check:
 Diagnostics:
 
 ```vim
-<leader>e
+<leader>df
 ```
 
 ---
@@ -486,7 +486,7 @@ Check:
 Diagnostics:
 
 ```vim
-<leader>e
+<leader>df
 ```
 
 ---
@@ -749,7 +749,7 @@ It does not itself provide parsing, diagnostics, formatting, or the LSP protocol
 ### Diagnostics
 
 ```vim
-<leader>e
+<leader>df
 ```
 
 ### All diagnostics in quickfix
