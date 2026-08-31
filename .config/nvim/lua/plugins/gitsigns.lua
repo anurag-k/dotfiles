@@ -4,6 +4,10 @@
 --   <leader>gb  Toggle current-line Git blame
 
 local config = function()
+	vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", {
+		link = "Comment",
+	})
+
 	require("gitsigns").setup({
 		signs = {
 			add = { text = "│" },
