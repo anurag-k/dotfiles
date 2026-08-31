@@ -26,6 +26,11 @@ keymap.set("n", "<A-Tab>", "<cmd>b#<CR>", {
 	desc = "Switch to previous buffer",
 })
 
+-- Terminals may not transmit a distinct Ctrl-Tab sequence.
+keymap.set("n", "<leader><Tab>", "<cmd>b#<CR>", {
+	desc = "Switch to previous buffer",
+})
+
 -- Indenting
 keymap.set("v", ">", ">gv")
 keymap.set("v", "<", "<gv")
