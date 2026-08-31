@@ -1,4 +1,4 @@
-	-- Telescope
+-- Telescope
 --
 -- Keymaps:
 --   <leader>fk  Telescope keymaps
