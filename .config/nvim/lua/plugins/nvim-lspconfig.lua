@@ -1,5 +1,4 @@
 local config = function()
-	local lspconfig = require("lspconfig")
 	local keymap = vim.keymap
 	local signs = {
 		Error = " ",
@@ -26,7 +25,7 @@ local config = function()
 	})
 
 	-- lua
-	lspconfig.lua_ls.setup({
+	vim.lsp.config("lua_ls", {
 		-- capabilities = capabilities,
 		-- on_attach = on_attach,
 		settings = { -- custom settings for lua
@@ -47,7 +46,7 @@ local config = function()
 	})
 
 	-- C++
-	lspconfig.clangd.setup({
+	vim.lsp.config("clangd", {
 		cmd = {
 			"clangd",
 			"--background-index",
@@ -57,24 +56,24 @@ local config = function()
 	})
 
 	-- Python
-	lspconfig.pyright.setup({})
-	lspconfig.ruff.setup({})
+	vim.lsp.config("pyright", {})
+	vim.lsp.config("ruff", {})
 
 	-- YAML
-	lspconfig.yamlls.setup({})
+	vim.lsp.config("yamlls", {})
 
 	-- TOML
-	lspconfig.taplo.setup({})
+	vim.lsp.config("taplo", {})
 
 	-- JavaScript / TypeScript
-	lspconfig.ts_ls.setup({})
+	vim.lsp.config("ts_ls", {})
 
 	local luacheck = require("efmls-configs.linters.luacheck")
 	local stylua = require("efmls-configs.formatters.stylua")
 	local shellcheck = require("efmls-configs.linters.shellcheck")
 
 	--configure efm server
-	lspconfig.efm.setup({
+	vim.lsp.config("efm", {
 		filetypes = {
 			"lua",
 			"sh",
@@ -95,6 +94,17 @@ local config = function()
 				bash = { shellcheck },
 			},
 		},
+	})
+
+	vim.lsp.enable({
+		"lua_ls",
+		"clangd",
+		"pyright",
+		"ruff",
+		"yamlls",
+		"taplo",
+		"ts_ls",
+		"efm",
 	})
 
 	-- LSP Keymaps

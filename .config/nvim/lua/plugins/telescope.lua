@@ -70,7 +70,9 @@ local config = function()
 					local query = action_state.get_current_line()
 					save_grep_history(query)
 
-					actions.select_default(prompt_bufnr)
+					-- `select_default` is replaced above, so calling it here would
+					-- recurse forever.  `file_edit` performs the original action.
+					actions.file_edit(prompt_bufnr)
 				end)
 
 				return true
@@ -169,32 +171,16 @@ return {
 	config = config,
 
 	keys = {
-		keymap.set("n", "<leader>fk", ":Telescope keymaps<CR>", {
-			desc = "Telescope keymaps",
-		}),
-
-		keymap.set("n", "<leader>fh", ":Telescope help_tags<CR>", {
-			desc = "Telescope help tags",
-		}),
-
-		keymap.set("n", "<leader>ff", ":Telescope find_files<CR>", {
-			desc = "Find files",
-		}),
-
-		keymap.set("n", "<leader>fa", ":Telescope<CR>", {
-			desc = "Telescope pickers",
-		}),
-
-		keymap.set("n", "<leader>fb", ":Telescope buffers<CR>", {
-			desc = "Buffers",
-		}),
-
-		keymap.set("n", "<leader>fr", ":Telescope oldfiles<CR>", {
-			desc = "Recent files",
-		}),
-
-		keymap.set("n", "<leader>gf", ":Telescope git_files<CR>", {
-			desc = "Git files",
-		}),
+		{ "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Telescope keymaps" },
+		{ "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Telescope help tags" },
+		{ "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find files" },
+		{ "<leader>fa", "<cmd>Telescope<cr>", desc = "Telescope pickers" },
+		{ "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
+		{ "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent files" },
+		{ "<leader>gf", "<cmd>Telescope git_files<cr>", desc = "Git files" },
+		-- These are remapped to custom functions in config after Telescope loads.
+		{ "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live grep" },
+		{ "<leader>fG", desc = "Grep history" },
+		{ "<leader>fR", desc = "Resume Telescope" },
 	},
 }
