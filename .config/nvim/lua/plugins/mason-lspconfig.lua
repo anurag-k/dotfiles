@@ -9,6 +9,8 @@ local opts = {
 		"ts_ls",
 	},
 	automatic_installation = false,
+	-- Servers are enabled explicitly in nvim-lspconfig.lua; avoid starting tools like stylua as LSP servers.
+	automatic_enable = false,
 }
 
 return {
