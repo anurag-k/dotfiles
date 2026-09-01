@@ -67,3 +67,33 @@ architecture, install Taplo separately and place it on `PATH`.
       ```
       Ctrl + Alt + T
       ```
+
+## 4. 60% keyboard layer with keyd (optional)
+
+The tracked `keyd/default.conf` adds a Caps Lock function layer while keeping
+the normal Caps Lock behavior when the key is tapped. Build and install `keyd`
+from source:
+
+```bash
+git clone https://github.com/rvaiya/keyd.git keyd-src
+cd keyd-src
+make
+sudo make install
+cd ..
+```
+
+Copy the configuration and enable the service:
+
+```bash
+sudo install -Dm644 keyd/default.conf /etc/keyd/default.conf
+sudo systemctl enable --now keyd
+sudo keyd reload
+systemctl status keyd
+```
+
+The layer provides these mappings:
+
+- `Caps + 1–0`, `-`, `=` → `F1–F12`
+- `Caps + H/J/K/L` → Home/Page Down/Page Up/End
+- `Caps + I` → Insert
+- `Caps + Backspace` → Delete
