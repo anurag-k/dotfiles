@@ -17,12 +17,7 @@ keymap.set("n", "<leader>sv", "<cmd>vsplit<CR>", opts) -- Split Vertically
 keymap.set("n", "<leader>sh", "<cmd>split<CR>", opts) -- Split Horizontally
 keymap.set("n", "<leader>sm", "<cmd>MaximizerToggle<CR>", opts) -- Toggle Maximize
 
--- Buffer Navigation
-keymap.set("n", "<C-Tab>", "<cmd>b#<CR>", {
-	desc = "Switch to previous buffer",
-})
-
--- Terminals may not transmit a distinct Ctrl-Tab sequence.
+-- Buffer Navigation (terminals may not transmit a distinct Ctrl-Tab sequence)
 keymap.set("n", "<leader><Tab>", "<cmd>b#<CR>", {
 	desc = "Switch to previous buffer",
 })
