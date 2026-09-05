@@ -3,6 +3,7 @@ local config = function()
 		indent = {
 			enable = true,
 		},
+
 		ensure_installed = {
 			"markdown",
 			"json",
@@ -20,7 +21,12 @@ local config = function()
 			"vue",
 			"cpp",
 		},
+
 		auto_install = true,
+		-- VimTeX provides LaTeX syntax support. Excluding this parser also avoids
+		-- auto-install failures when the tree-sitter CLI is not installed.
+		ignore_install = { "latex" },
+
 		highlight = {
 			enable = true,
 			additional_vim_regex_highlighting = true,
