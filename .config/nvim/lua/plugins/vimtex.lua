@@ -1,7 +1,6 @@
 return {
 	{
 		"lervag/vimtex",
-		tag = "v2.17",
 		lazy = false,
 
 		init = function()
