@@ -65,6 +65,9 @@ local config = function()
 	-- TOML
 	vim.lsp.config("taplo", {})
 
+	-- Markdown
+	vim.lsp.config("marksman", {})
+
 	-- JavaScript / TypeScript
 	vim.lsp.config("ts_ls", {})
 
@@ -103,6 +106,7 @@ local config = function()
 		"ruff",
 		"yamlls",
 		"taplo",
+		"marksman",
 		"ts_ls",
 		"efm",
 	})
@@ -120,11 +124,10 @@ local config = function()
 	keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
 
 	keymap.set("n", "<leader>cf", function()
-		if vim.bo.filetype == "python" or vim.bo.filetype == "sh" or vim.bo.filetype == "bash" then
-			require("conform").format({ async = true })
-		else
-			vim.lsp.buf.format({ async = true })
-		end
+		require("conform").format({
+			async = true,
+			lsp_format = "fallback",
+		})
 	end, { desc = "Format Buffer" })
 	keymap.set("n", "<leader>ci", "<cmd>LspInfo<CR>", { desc = "LSP Info" })
 	keymap.set("n", "<leader>df", vim.diagnostic.open_float, {
