@@ -9,15 +9,18 @@ FONT_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/fonts"
 LOCAL_BIN="$HOME/.local/bin"
 SKIP_FONT=false
 SKIP_NVIM=false
+WITH_DOCS=false
+PANDOC_VERSION=3.11
 
 usage() {
   cat <<'EOF'
-Usage: bash bootstrap.sh [--skip-font] [--skip-nvim]
+Usage: bash bootstrap.sh [--skip-font] [--skip-nvim] [--with-docs]
 
 Supports APT (Debian/Ubuntu), DNF (Fedora), and Pacman (Arch). It installs the
 system and language tooling used by this repository, installs the SauceCodePro
 Nerd Font, links the tracked configuration into $HOME, enables Starship for
-Bash, and installs Neovim plugins and Mason language servers.
+Bash, and installs the latest stable Neovim plus its plugins and Mason language
+servers. --with-docs adds Pandoc, XeLaTeX, and SVG conversion support.
 EOF
 }
 
@@ -25,6 +28,7 @@ while (($#)); do
   case "$1" in
     --skip-font) SKIP_FONT=true ;;
     --skip-nvim) SKIP_NVIM=true ;;
+    --with-docs) WITH_DOCS=true ;;
     -h|--help) usage; exit 0 ;;
     *) printf 'Unknown option: %s\n' "$1" >&2; usage >&2; exit 2 ;;
   esac
@@ -58,31 +62,131 @@ install_packages() {
     printf '%s\n' 'Installing packages with APT...'
     sudo apt-get update
     sudo apt-get install -y \
-      alacritty tmux starship neovim git curl ripgrep fd-find xclip fontconfig \
+      alacritty tmux starship git curl ripgrep fd-find xclip fontconfig \
       unzip build-essential cmake clangd gdb python3-venv python3-pip pipx npm \
       shellcheck shfmt golang-go cargo lua-check
     sudo apt-get install -y stylua || printf 'StyLua is not packaged here; it will be installed with Cargo.\n' >&2
+    if $WITH_DOCS; then
+      sudo apt-get install -y texlive-xetex librsvg2-bin
+    fi
   elif command -v dnf >/dev/null 2>&1; then
     printf '%s\n' 'Installing packages with DNF...'
     sudo dnf install -y \
-      alacritty tmux starship neovim git curl ripgrep fd-find xclip fontconfig \
+      alacritty tmux starship git curl ripgrep fd-find xclip fontconfig \
       unzip gcc gcc-c++ make cmake clang-tools-extra gdb python3-pip pipx npm \
       ShellCheck shfmt golang cargo lua-check
     sudo dnf install -y stylua || printf 'StyLua is not packaged here; it will be installed with Cargo.\n' >&2
+    if $WITH_DOCS; then
+      sudo dnf install -y texlive-xetex librsvg2-tools
+    fi
   elif command -v pacman >/dev/null 2>&1; then
     printf '%s\n' 'Installing packages with Pacman...'
     sudo pacman -Sy --needed --noconfirm \
-      alacritty tmux starship neovim git curl ripgrep fd xclip fontconfig \
+      alacritty tmux starship git curl ripgrep fd xclip fontconfig \
       unzip base-devel cmake clang gdb python python-pipx npm shellcheck shfmt \
       go rust lua-check
     sudo pacman -S --needed --noconfirm stylua || printf 'StyLua is not packaged here; it will be installed with Cargo.\n' >&2
+    if $WITH_DOCS; then
+      sudo pacman -S --needed --noconfirm texlive-xetex librsvg
+    fi
   else
     printf 'Unsupported package manager. Install the tools listed in dependencies.md, then re-run with --skip-nvim if needed.\n' >&2
     exit 1
   fi
 }
 
+install_latest_neovim() {
+  local machine nvim_arch archive temp_dir unpacked version install_dir
+  machine=$(uname -m)
+  case "$machine" in
+    x86_64) nvim_arch=x86_64 ;;
+    aarch64|arm64) nvim_arch=arm64 ;;
+    *)
+      printf 'No official Neovim Linux archive is configured for architecture: %s\n' "$machine" >&2
+      exit 1
+      ;;
+  esac
+
+  printf '%s\n' 'Installing the latest stable Neovim release...'
+  temp_dir=$(mktemp -d)
+  archive="$temp_dir/nvim-linux-$nvim_arch.tar.gz"
+  curl --fail --location --retry 3 \
+    --output "$archive" \
+    "https://github.com/neovim/neovim/releases/latest/download/nvim-linux-$nvim_arch.tar.gz"
+  tar -xzf "$archive" -C "$temp_dir"
+  unpacked="$temp_dir/nvim-linux-$nvim_arch"
+  version=$("$unpacked/bin/nvim" --version | sed -n '1s/^NVIM v//p')
+  if [[ -z $version ]]; then
+    printf '%s\n' 'Could not determine the downloaded Neovim version.' >&2
+    exit 1
+  fi
+
+  install_dir="$HOME/.local/opt/nvim-$version"
+  if [[ ! -e $install_dir ]]; then
+    mv "$unpacked" "$install_dir"
+  elif [[ ! -x $install_dir/bin/nvim ]]; then
+    printf 'Existing Neovim installation is incomplete: %s\n' "$install_dir" >&2
+    exit 1
+  fi
+  ln -sfn "$install_dir/bin/nvim" "$LOCAL_BIN/nvim"
+  rm -rf "$temp_dir"
+  printf 'Neovim %s is available at %s.\n' "$version" "$LOCAL_BIN/nvim"
+}
+
+install_pandoc() {
+  local machine pandoc_arch checksum archive temp_dir unpacked install_dir tool
+  machine=$(uname -m)
+  case "$machine" in
+    x86_64)
+      pandoc_arch=amd64
+      checksum=37edb3bbcf722f921a009941bf5874e2e0c09263226c9b4a2d980788cb062ab6
+      ;;
+    aarch64|arm64)
+      pandoc_arch=arm64
+      checksum=56ed5566ec41d22ec9ee0704e6ac0b98ba102e92384efd5306173a22d314c79a
+      ;;
+    *)
+      printf 'No official Pandoc Linux archive is configured for architecture: %s\n' "$machine" >&2
+      exit 1
+      ;;
+  esac
+
+  printf 'Installing Pandoc %s...\n' "$PANDOC_VERSION"
+  temp_dir=$(mktemp -d)
+  archive="$temp_dir/pandoc-$PANDOC_VERSION-linux-$pandoc_arch.tar.gz"
+  curl --fail --location --retry 3 \
+    --output "$archive" \
+    "https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-linux-$pandoc_arch.tar.gz"
+  printf '%s  %s\n' "$checksum" "$archive" | sha256sum --check --status
+  tar -xzf "$archive" -C "$temp_dir"
+  unpacked="$temp_dir/pandoc-$PANDOC_VERSION"
+  install_dir="$HOME/.local/opt/pandoc-$PANDOC_VERSION"
+  if [[ ! -e $install_dir ]]; then
+    mv "$unpacked" "$install_dir"
+  elif [[ ! -x $install_dir/bin/pandoc ]]; then
+    printf 'Existing Pandoc installation is incomplete: %s\n' "$install_dir" >&2
+    exit 1
+  fi
+  for tool in pandoc pandoc-server; do
+    if [[ -x $install_dir/bin/$tool ]]; then
+      ln -sfn "$install_dir/bin/$tool" "$LOCAL_BIN/$tool"
+    fi
+  done
+  rm -rf "$temp_dir"
+}
+
 install_packages
+
+mkdir -p "$LOCAL_BIN" "$HOME/.local/opt" "$HOME/.vim/undodir"
+export PATH="$LOCAL_BIN:$PATH"
+
+if ! $SKIP_NVIM; then
+  install_latest_neovim
+fi
+
+if $WITH_DOCS; then
+  install_pandoc
+fi
 
 printf '%s\n' 'Installing Node-based language servers and Codex...'
 sudo npm install -g \
@@ -102,7 +206,6 @@ if ! command -v stylua >/dev/null 2>&1; then
   cargo install stylua
 fi
 
-mkdir -p "$LOCAL_BIN" "$HOME/.vim/undodir"
 link_file "$REPO_DIR/.config/alacritty" "$HOME/.config/alacritty"
 link_file "$REPO_DIR/.config/nvim" "$HOME/.config/nvim"
 link_file "$REPO_DIR/.config/starship.toml" "$HOME/.config/starship.toml"

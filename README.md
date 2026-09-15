@@ -10,10 +10,23 @@ bash bootstrap.sh
 
 The script supports APT (Debian/Ubuntu), DNF (Fedora), and Pacman (Arch). It
 installs the required packages and language tooling, links the configuration
-into your home directory, installs the SauceCodePro Nerd Font, and bootstraps
-Neovim. It modifies `~/.bashrc` only to add `~/.local/bin` and Starship
-initialization. Use `--skip-font` or `--skip-nvim` to omit either network-heavy
-step.
+into your home directory, installs the SauceCodePro Nerd Font, downloads the
+latest official stable Neovim release, and bootstraps its plugins. It modifies
+`~/.bashrc` only to add `~/.local/bin` and Starship initialization. Use
+`--skip-font` or `--skip-nvim` to omit either network-heavy step.
+
+For Markdown-to-PDF and SVG support, use the optional documentation setup:
+
+```bash
+bash bootstrap.sh --with-docs
+```
+
+This installs Pandoc, XeLaTeX, and `rsvg-convert`. On Debian/Ubuntu, the latter
+comes from `sudo apt install librsvg2-bin`. Convert a note with:
+
+```bash
+pandoc note.md --pdf-engine=xelatex -o note.pdf
+```
 
 The tracked `taplo` executable is static Linux x86-64 only. On another
 architecture, install Taplo separately and place it on `PATH`.
