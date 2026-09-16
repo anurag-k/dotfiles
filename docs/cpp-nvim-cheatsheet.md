@@ -60,6 +60,33 @@ Command      :commands
 | Go to line | `:123` |
 | Delete entire file | `:%d` |
 
+## Visual selections
+
+Visual mode selects text before you apply an editing command:
+
+| Selection | Command |
+|---|---|
+| Start character-wise selection | `v` |
+| Select the current line | `V` |
+| Start a vertical/block selection | `Ctrl-v` |
+| Select the current word | `viw` |
+| Select inside parentheses | `vi(` |
+| Select inside quotes | `vi"` |
+| Select the entire file | `ggVG` |
+| Reselect the previous selection | `gv` |
+| Leave Visual mode | `Esc` |
+
+After selecting text, use `y` to copy, `d` to delete, `c` to replace, `>` or
+`<` to change indentation, `=` to reindent, or `~` to toggle letter case.
+
+For a block edit across several lines:
+
+```text
+Ctrl-v → select with h/j/k/l → I → type text → Esc
+```
+
+The inserted text appears on every selected line after pressing `Esc`.
+
 ---
 
 # 3. Navigation
