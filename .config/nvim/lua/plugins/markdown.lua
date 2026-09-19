@@ -50,7 +50,7 @@ return {
 			modules = {
 				maps = false,
 				conceal = false,
-				folds = false,
+				folds = true,
 				foldtext = false,
 				completion = true,
 			},
