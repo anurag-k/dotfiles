@@ -4,29 +4,30 @@ $character
 """
 
 [directory]
-style = "bold blue"
+style = "bold #cbd5e1"
 truncation_length = 3
 
 [git_branch]
 symbol = " "
-style = "bold purple"
+style = "#94a3b8"
 
 [git_status]
-style = "bold red"
+style = "bold #cbd5e1"
 
 [cmd_duration]
 min_time = 2000
-format = "took [$duration](yellow)"
+format = "took [$duration](#94a3b8)"
 
 [character]
-success_symbol = "[❯](#b6b8bb)"
-error_symbol = "[❯](#ee5396)"
+success_symbol = "[❯](#cbd5e1)"
+error_symbol = "[✗](bold #e2e8f0)"
 
 # Disable language/version detection
 [lua]
 disabled = true
 
 [python]
+style = "#94a3b8"
 disabled = false
 
 [nodejs]
