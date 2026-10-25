@@ -10,17 +10,19 @@ LOCAL_BIN="$HOME/.local/bin"
 SKIP_FONT=false
 SKIP_NVIM=false
 WITH_DOCS=false
+WITH_CODEX=false
 PANDOC_VERSION=3.11
 
 usage() {
   cat <<'EOF'
-Usage: bash bootstrap.sh [--skip-font] [--skip-nvim] [--with-docs]
+Usage: bash bootstrap.sh [--skip-font] [--skip-nvim] [--with-docs] [--with-codex]
 
 Supports APT (Debian/Ubuntu), DNF (Fedora), and Pacman (Arch). It installs the
 system and language tooling used by this repository, installs the SauceCodePro
 Nerd Font, links the tracked configuration into $HOME, enables Starship for
 Bash, and installs the latest stable Neovim plus its plugins and Mason language
 servers. --with-docs adds Pandoc, XeLaTeX, and SVG conversion support.
+--with-codex installs the optional Codex CLI.
 EOF
 }
 
@@ -29,6 +31,7 @@ while (($#)); do
     --skip-font) SKIP_FONT=true ;;
     --skip-nvim) SKIP_NVIM=true ;;
     --with-docs) WITH_DOCS=true ;;
+    --with-codex) WITH_CODEX=true ;;
     -h|--help) usage; exit 0 ;;
     *) printf 'Unknown option: %s\n' "$1" >&2; usage >&2; exit 2 ;;
   esac
@@ -188,10 +191,15 @@ if $WITH_DOCS; then
   install_pandoc
 fi
 
-printf '%s\n' 'Installing Node-based language servers and Codex...'
+printf '%s\n' 'Installing Node-based language servers...'
 sudo npm install -g \
-  @openai/codex pyright typescript typescript-language-server \
+  pyright typescript typescript-language-server \
   bash-language-server vscode-langservers-extracted
+
+if $WITH_CODEX; then
+  printf '%s\n' 'Installing the optional Codex CLI...'
+  sudo npm install -g @openai/codex
+fi
 
 printf '%s\n' 'Installing Python and Go tooling...'
 pipx ensurepath
@@ -245,4 +253,8 @@ if ! $SKIP_NVIM; then
     +qa
 fi
 
-printf '%s\n' 'Done. Open a new Bash session, then run `codex login` before using `dev`.'
+if $WITH_CODEX; then
+  printf '%s\n' 'Done. Open a new Bash session, then run `codex login` before using Codex.'
+else
+  printf '%s\n' 'Done. Open a new Bash session before using `dev`.'
+fi

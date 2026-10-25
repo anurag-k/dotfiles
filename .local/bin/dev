@@ -18,10 +18,14 @@ fi
 tmux new-session -d -s "$SESSION" -n nvim -c "$PROJECT_DIR"
 tmux send-keys -t "$SESSION:1" 'nvim .' C-m
 
-tmux new-window -t "$SESSION:2" -n codex -c "$PROJECT_DIR"
-tmux send-keys -t "$SESSION:2" 'codex' C-m
+shell_window=2
+if command -v codex >/dev/null 2>&1; then
+    tmux new-window -t "$SESSION:2" -n codex -c "$PROJECT_DIR"
+    tmux send-keys -t "$SESSION:2" 'codex' C-m
+    shell_window=3
+fi
 
-tmux new-window -t "$SESSION:3" -n shell -c "$PROJECT_DIR"
+tmux new-window -t "$SESSION:$shell_window" -n shell -c "$PROJECT_DIR"
 
 tmux select-window -t "$SESSION:1"
 

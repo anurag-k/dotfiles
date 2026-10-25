@@ -1,7 +1,7 @@
 # Linux dotfiles
 
 Configuration for Alacritty, tmux, Starship, Neovim, and a `dev` helper that
-opens a project in tmux with Neovim, Codex, and a shell.
+opens a project in tmux with Neovim and a shell, plus Codex when installed.
 
 ## Set up a workstation
 
@@ -26,6 +26,7 @@ before running it. Re-running the script refreshes its links and setup.
 | `--skip-font` | Skip the Nerd Font download. |
 | `--skip-nvim` | Skip the Neovim download and plugin/Mason bootstrap. |
 | `--with-docs` | Add Pandoc, XeLaTeX, and `rsvg-convert` for Markdown-to-PDF work. |
+| `--with-codex` | Install the optional Codex CLI. |
 
 Neovim is installed under `~/.local/opt` and linked at `~/.local/bin/nvim`.
 The official Linux archive step supports x86-64 and ARM64. The bundled `taplo`
@@ -39,8 +40,9 @@ architecture if you need TOML LSP support.
 - C/C++: a compiler/build toolchain, CMake, clangd, and GDB.
 - Neovim support: Node/npm, Python virtual environments and pipx, Go, Cargo,
   ShellCheck, shfmt, LuaCheck, StyLua, Ruff, and efm-langserver.
-- Global Node tools: Codex, Pyright, TypeScript and its language server, Bash
-  language server, and JSON/CSS/HTML language servers.
+- Global Node tools: Pyright, TypeScript and its language server, Bash language
+  server, and JSON/CSS/HTML language servers. The bootstrapper installs Codex
+  only with `--with-codex`.
 - Mason: the bootstrapper installs six language-server packages; Neovim
   requests additional packages on startup or when opening a file. See
   [Mason packages and installation](docs/nvim-setup-explained.md#mason-packages-and-installation)
@@ -54,16 +56,17 @@ PlantUML are separate installs if you use those formats.
 
 ### After installation
 
-Open a new Bash session so `~/.local/bin` and Starship are available, then
-authenticate Codex:
+Open a new Bash session so `~/.local/bin` and Starship are available.
+From a project directory, `dev` opens or attaches a tmux session with Neovim
+and a shell. When `codex` is on `PATH`, it also opens a Codex window. If you
+plan to use Codex, authenticate first if needed:
 
 ```bash
 codex login
 ```
 
-From a project directory, `dev` opens or attaches its tmux session. It needs
-`tmux`, `nvim`, and `codex` on `PATH`. Check the editor with `nvim --version`
-and the font with `fc-match "SauceCodePro Nerd Font Mono"`.
+Check the editor with `nvim --version` and the font with
+`fc-match "SauceCodePro Nerd Font Mono"`.
 
 ## Optional Markdown-to-PDF support
 

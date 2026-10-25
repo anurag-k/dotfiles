@@ -9,8 +9,8 @@ the [README](../README.md) and [Neovim setup explanation](nvim-setup-explained.m
 Start this workflow from the project root. File search and live grep use
 Neovim's working directory, and the configured GDB launch prompt defaults to
 its `build/` directory. The `dev` helper uses that directory to name its tmux
-session and to start Neovim, Codex, and a shell. If search or debugging points
-at the wrong project, check `:pwd`.
+session and to start Neovim and a shell, plus Codex when installed. If search
+or debugging points at the wrong project, check `:pwd`.
 
 ## 2. Find files and text
 
