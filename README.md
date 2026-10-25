@@ -95,12 +95,30 @@ use VimTeX's compile/view commands. Check the pieces you need with
 `zathura --version`. A TeX engine compiles the document; `latexmk` manages
 rebuilds, and Zathura displays the PDF.
 
-## Optional desktop setup
+## SauceCodePro Nerd Font Mono
 
-Alacritty uses SauceCodePro Nerd Font Mono. If you skipped font installation,
-install that font yourself and refresh Fontconfig. On Ubuntu, you can assign
-`Ctrl+Alt+T` to the `alacritty` command in Settings → Keyboard → Keyboard
-Shortcuts, after releasing any existing binding for that shortcut.
+The bootstrapper installs this font automatically unless you pass `--skip-font`.
+Alacritty is configured to use the Mono variant at size 13. For a manual
+installation, download and extract SourceCodePro from the
+[Nerd Fonts downloads page](https://www.nerdfonts.com/font-downloads), then
+copy its `.ttf` files into your user font directory:
+
+```bash
+mkdir -p ~/.local/share/fonts
+find /path/to/extracted/SourceCodePro -type f -iname '*.ttf' -exec cp -t ~/.local/share/fonts {} +
+fc-cache -f ~/.local/share/fonts
+fc-match "SauceCodePro Nerd Font Mono"
+```
+
+Replace `/path/to/extracted/SourceCodePro` with the directory containing the
+extracted font files. The final command should report SauceCodePro Nerd Font
+Mono.
+
+## Optional Alacritty shortcut
+
+On Ubuntu, you can assign `Ctrl+Alt+T` to the `alacritty` command in Settings
+→ Keyboard → Keyboard Shortcuts, after releasing any existing binding for that
+shortcut.
 
 ## 60% keyboard layer with keyd (optional)
 
