@@ -124,8 +124,10 @@ cmake --build build --parallel
 ctest --test-dir build --output-on-failure
 ```
 
-A shell build does not automatically fill Neovim's quickfix list. To put
-compiler errors there, run a build inside Neovim with `:make`:
+A shell build does not automatically fill Neovim's quickfix list. If you
+want compiler errors there, use Neovim's built-in `:make` command. This
+configuration does not define a `:make` mapping or set a CMake-specific
+`makeprg`, so set the build command for the session first:
 
 ```vim
 :set makeprg=cmake\ --build\ build
@@ -183,7 +185,7 @@ another directory still works if you enter its actual executable path.
 | `gd` or `gr` does nothing | Open a C++ buffer and inspect `:LspInfo`; check `clangd --version` in a shell. |
 | Wrong include paths or many false diagnostics | Regenerate `compile_commands.json`; confirm the project-root link and `:pwd`. |
 | File or grep search misses files | Check `:pwd`, Git tracking for `<leader>gf`, and whether ripgrep is installed. |
-| Build errors do not appear in quickfix | Run the build through `:make`; a tmux-shell build does not populate quickfix. |
+| Build errors do not appear in quickfix | Run the build through Neovim's built-in `:make`; a tmux-shell build does not populate quickfix. |
 | Debug session does not start | Check `gdb --version`, the executable path, and the selected build target. |
 | Breakpoints do not bind | Rebuild with debug information and check that source and executable match. |
 

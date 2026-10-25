@@ -59,8 +59,10 @@ references, `<leader>cr` for rename, and `<leader>ca` for code actions.
 
 Markdown editing uses Marksman, Prettier, render-markdown, and mkdnflow. The
 optional `bootstrap.sh --with-docs` installs Pandoc, XeLaTeX, and
-`rsvg-convert` for PDF output. It does not install the `latexmk` and Zathura
-programs expected by VimTeX's LaTeX compile/view commands.
+`rsvg-convert` for PDF output. VimTeX handles LaTeX editing and uses
+`latexmk` and Zathura for compilation and viewing; see the
+[README's LaTeX section](../README.md#optional-latex-editing-with-vimtex) for
+installation details.
 
 ### AsciiDoc
 

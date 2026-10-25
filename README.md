@@ -47,9 +47,9 @@ architecture if you need TOML LSP support.
   [mason-tool-installer](.config/nvim/lua/plugins/mason-tool-installer.lua).
 
 The bootstrapper does not install every tool discussed in the optional workflow
-notes. For Python debugging, install `debugpy` in the project's `.venv`. For
-VimTeX, install `latexmk` and Zathura separately. Asciidoctor and PlantUML are
-also separate installs if you use those formats.
+notes. For Python debugging, install `debugpy` in the project's `.venv`.
+VimTeX's optional compile/view tools are covered below. Asciidoctor and
+PlantUML are separate installs if you use those formats.
 
 ### After installation
 
@@ -75,6 +75,24 @@ The flag installs the pinned Pandoc version used by `bootstrap.sh` (currently
 3.11), XeLaTeX, and `rsvg-convert` for SVG images. On Debian/Ubuntu,
 `rsvg-convert` comes from `librsvg2-bin`. Verify with `pandoc --version`,
 `xelatex --version`, and `rsvg-convert --version`.
+
+## Optional LaTeX editing with VimTeX
+
+The regular Neovim plugin bootstrap installs VimTeX for `.tex` editing and
+syntax highlighting. `--with-docs` installs XeLaTeX; on Debian/Ubuntu its
+`texlive-xetex` package also pulls in `texlive-latex-base`, which provides
+PDFLaTeX. VimTeX is configured to run `latexmk` for compilation and open the
+resulting PDF in Zathura. Add those two optional tools on Debian/Ubuntu with:
+
+```bash
+sudo apt install latexmk zathura
+```
+
+For other distributions, install their `latexmk` and Zathura packages if you
+use VimTeX's compile/view commands. Check the pieces you need with
+`pdflatex --version`, `xelatex --version`, `latexmk -v`, and
+`zathura --version`. A TeX engine compiles the document; `latexmk` manages
+rebuilds, and Zathura displays the PDF.
 
 ## Optional desktop setup
 
