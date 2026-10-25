@@ -149,5 +149,5 @@ These are references for working with the configuration, not prerequisites for
 running the bootstrapper:
 
 - [Neovim setup explained](docs/nvim-setup-explained.md): how the general editor setup fits together and where its tools come from.
-- [Neovim Python workflow](docs/nvim-python-workflow.md): project environments, formatting, tests, and debugging.
 - [Neovim C++ workflow](docs/nvim-cpp-workflow.md): project navigation, clangd, CMake builds, diagnostics, and GDB debugging.
+- [Neovim Python workflow](docs/nvim-python-workflow.md): project environments, formatting, tests, and debugging.
