@@ -102,6 +102,8 @@ install that font yourself and refresh Fontconfig. On Ubuntu, you can assign
 `Ctrl+Alt+T` to the `alacritty` command in Settings → Keyboard → Keyboard
 Shortcuts, after releasing any existing binding for that shortcut.
 
+## 60% keyboard layer with keyd (optional)
+
 The tracked [keyd layer](keyd/default.conf) makes Caps Lock a function layer
 when held while preserving Caps Lock on tap. To install it from source:
 
