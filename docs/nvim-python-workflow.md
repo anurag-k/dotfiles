@@ -1,4 +1,8 @@
-# Neovim Python Workflow
+# Neovim Python workflow
+
+Use this guide for Python editing, project environments, tests, and debugging
+with this repository's Neovim configuration. For installation and tool
+sources, see the [README](../README.md) and [Neovim setup explanation](nvim-setup-explained.md).
 
 ## Python language support
 
@@ -36,7 +40,7 @@ Python files are also formatted automatically before save.
 
 ### Ruff
 
-Ruff is installed through Mason and provides:
+Ruff is installed through `pipx` by `bootstrap.sh`. Its LSP and formatter provide:
 
 - linting / diagnostics
 - code actions
@@ -50,7 +54,7 @@ Ruff is installed through Mason and provides:
 
 # Python virtual environments
 
-Create a project environment:
+Create a project environment from the project root (the DAP configuration uses the current directory):
 
 ```bash
 python3 -m venv .venv
@@ -92,7 +96,7 @@ Run a Python program:
 python main.py
 ```
 
-Use `python -m pip` to ensure packages are installed into the active interpreter:
+Install project packages with `python -m pip` so they go into the active interpreter:
 
 ```bash
 python -m pip install <package>
@@ -129,6 +133,12 @@ pytest test_main.py::test_add
 ---
 
 # Debugging
+
+Install `debugpy` inside the project environment before using DAP; the bootstrapper does not install it:
+
+```bash
+.venv/bin/python -m pip install debugpy
+```
 
 Neovim uses:
 
@@ -234,25 +244,4 @@ project/
 └── test_main.py
        │
        └── pytest
-```
-
-## PyCharm-equivalent mapping
-
-```text
-PyCharm                         Neovim
-
-Code completion          →      Pyright + blink.cmp
-Type checking            →      Pyright
-Go to definition         →      gd
-Find usages              →      gr
-Rename                   →      <leader>cr
-Quick fixes              →      <leader>ca
-Reformat Code            →      <leader>cf
-Format on save           →      Ruff + Conform
-Linting                  →      Ruff
-Virtual environment      →      .venv
-Run Python               →      python main.py
-Run tests                →      pytest
-Debugger                 →      nvim-dap + debugpy
-Debug variables/stack    →      nvim-dap-ui
 ```

@@ -90,7 +90,7 @@ install_packages() {
       sudo pacman -S --needed --noconfirm texlive-xetex librsvg
     fi
   else
-    printf 'Unsupported package manager. Install the tools listed in dependencies.md, then re-run with --skip-nvim if needed.\n' >&2
+    printf 'Unsupported package manager. Install the tools listed in README.md, then re-run with --skip-nvim if needed.\n' >&2
     exit 1
   fi
 }
