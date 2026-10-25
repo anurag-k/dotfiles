@@ -41,10 +41,11 @@ architecture if you need TOML LSP support.
   ShellCheck, shfmt, LuaCheck, StyLua, Ruff, and efm-langserver.
 - Global Node tools: Codex, Pyright, TypeScript and its language server, Bash
   language server, and JSON/CSS/HTML language servers.
-- Mason packages: language servers configured in
-  [Neovim](.config/nvim/lua/plugins/mason-lspconfig.lua), plus Marksman,
-  Prettier, and tree-sitter-cli from
-  [mason-tool-installer](.config/nvim/lua/plugins/mason-tool-installer.lua).
+- Mason: the bootstrapper installs six language-server packages; Neovim
+  requests additional packages on startup or when opening a file. See
+  [Mason packages and installation](docs/nvim-setup-explained.md#mason-packages-and-installation)
+  for the exact list and how to check it. Mason's data directory is local and
+  is not committed to this repository.
 
 The bootstrapper does not install every tool discussed in the optional workflow
 notes. For Python debugging, install `debugpy` in the project's `.venv`.
